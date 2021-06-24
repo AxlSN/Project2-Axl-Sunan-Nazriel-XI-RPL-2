@@ -3,6 +3,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /*
@@ -23,7 +24,7 @@ public class DataSiswa extends javax.swing.JPanel {
     Connection koneksi;
     public DataSiswa() {
         initComponents();
-        koneksi = DatabaseConnection.getKoneksi("localhost", "3306","root","","db_sekolah");
+        koneksi = DatabaseConnection.getKoneksi("localhost", "3306","root","","db_sekolahh");
         showData();
     }
     
@@ -81,6 +82,11 @@ public class DataSiswa extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tbl_siswa.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbl_siswaMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tbl_siswa);
 
         cmdRefresh.setText("Refresh");
@@ -91,10 +97,20 @@ public class DataSiswa extends javax.swing.JPanel {
         });
 
         cmdTambah.setText("Tambah");
+        cmdTambah.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmdTambahActionPerformed(evt);
+            }
+        });
 
         cmdEdit.setText("Edit");
 
         cmdHapus.setText("Hapus");
+        cmdHapus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmdHapusActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -141,6 +157,73 @@ public class DataSiswa extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_cmdRefreshActionPerformed
 
+    private void cmdTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdTambahActionPerformed
+        // TODO add your handling code here:
+        ManageData tambahData = new ManageData(this,true,"Tambah","");
+        tambahData.setVisible(true);
+    }//GEN-LAST:event_cmdTambahActionPerformed
+    int baris;
+    private void tbl_siswaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_siswaMouseClicked
+        // TODO add your handling code here:
+        baris = tbl_siswa.getSelectedRow();
+    }//GEN-LAST:event_tbl_siswaMouseClicked
+
+    private void cmdHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdHapusActionPerformed
+        // TODO add your handling code here:
+        String idWhoWantToBeDelete = tbl_siswa.getValueAt(baris, 1).toString();
+    try{
+        Statement stmt = koneksi.createStatement();
+        String query = "DELETE FROM t_siswa WHERE nis = '"+idWhoWantToBeDelete+"'";
+        int berhasil = stmt.executeUpdate(query);
+        if(berhasil == 1){
+            JOptionPane.showMessageDialog(null, "Data Berhasil Dihapus");
+            dtm.getDataVector().removeAllElements();
+            showData();
+        }else{
+            JOptionPane.showMessageDialog(null, "Data Berhasil Dihapus");
+        }
+    }catch(SQLException ex) {
+       ex.printStackTrace();
+    }
+    }//GEN-LAST:event_cmdHapusActionPerformed
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(ManageData.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(ManageData.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(ManageData.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(ManageData.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the dialog */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                ManageData dialog = new ManageData(new javax.swing.JFrame(), true);
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+                dialog.setVisible(true);
+            }
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cmdEdit;
