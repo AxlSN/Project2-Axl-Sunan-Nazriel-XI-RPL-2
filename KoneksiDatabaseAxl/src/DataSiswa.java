@@ -104,6 +104,11 @@ public class DataSiswa extends javax.swing.JPanel {
         });
 
         cmdEdit.setText("Edit");
+        cmdEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmdEditActionPerformed(evt);
+            }
+        });
 
         cmdHapus.setText("Hapus");
         cmdHapus.addActionListener(new java.awt.event.ActionListener() {
@@ -186,6 +191,13 @@ public class DataSiswa extends javax.swing.JPanel {
        ex.printStackTrace();
     }
     }//GEN-LAST:event_cmdHapusActionPerformed
+
+    private void cmdEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdEditActionPerformed
+        // TODO add your handling code here:
+        String nis = tbl_siswa.getValueAt(baris, 1).toString();
+        ManageData tambahData = new ManageData(this,true,"Edit",nis);
+        tambahData.setVisible(true);
+    }//GEN-LAST:event_cmdEditActionPerformed
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -211,18 +223,6 @@ public class DataSiswa extends javax.swing.JPanel {
         //</editor-fold>
 
         /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                ManageData dialog = new ManageData(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
